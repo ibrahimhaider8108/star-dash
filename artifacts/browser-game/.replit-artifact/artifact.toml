@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Star Dash"
+description = "A playable browser arcade game where players move around the arena, collect stars, beat the clock, and chase a high score."
+version = "1.0.0"
+id = "artifacts/browser-game"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 23637
+
+[services.development]
+run = "pnpm --filter @workspace/browser-game run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/browser-game", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/browser-game/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "23637"
+BASE_PATH = "/"
